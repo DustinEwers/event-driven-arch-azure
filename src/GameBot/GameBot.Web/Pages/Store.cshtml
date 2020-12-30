@@ -1,0 +1,17 @@
+﻿@page
+@model GameBot.Web.Pages.StoreModel
+@{
+    ViewData["Title"] = "Store";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Stock up on super valuable game coins, which can only be purchased with USD.</p>
+
+<form method="post">
+    How Many Coins Would you Like? <br />
+    <input type="radio" name="Order.Coins" value="100" />Buy 100 Coins for $12.99<br />
+    <input type="radio" name="Order.Coins" value="500" />Buy 500 Coins for $49.99<br />
+    <input type="radio" name="Order.Coins" value="1000" />Buy 1000 Coins for $89.99 (Best Value!)<br />
+    <input type="submit" />
+</form>
