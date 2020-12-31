@@ -35,7 +35,7 @@ namespace GameBot.Web
 
             await serviceBus.SetupOrderUpdateTopicListener(async (orderResult) =>
             {
-                await userHub.Clients.All.SendAsync("SendMessage", $"{orderResult.User}'s order number {orderResult.OrderId } was {orderResult.OrderSuccessful}", stoppingToken);
+                await userHub.Clients.All.SendAsync("SendMessage", $"{orderResult.User}'s order number {orderResult.OrderId } for {orderResult.Coins} was {(orderResult.OrderSuccessful? "successful": "not successful")}", stoppingToken);
             });
         }
     }
