@@ -4,9 +4,14 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/user-updates").build();
 
-connection.hub.start();
+connection.start().then(function () {
+    console.log("Hub Started");
+}).catch(function (err) {
+    return console.error(err.toString());
+});
 
-connection.on("ReceiveMessage", function (message) {
+connection.on("SendMessage", function (message) {
+    console.log("Message Recieved");
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     var li = document.createElement("li");
     li.textContent = msg;

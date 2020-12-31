@@ -5,7 +5,7 @@ namespace GameBot.Domain
 {
     public class Order
     {
-        public Guid OrderId { get; private set; }
+        public Guid OrderId { get; set; }
 
         [Required]
         public int Coins { get; set; }

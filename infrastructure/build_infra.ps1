@@ -10,12 +10,12 @@ $serviceBusTopic = "game-coin-purchase-updates"
 $serviceBusTopicSubscription = "$serviceBusTopic-subscription"
 
 Write-Host "Creating Resource Group"
-az group create -n $resourceGroupName
+az group create -n $resourceGroupName -l centralus
 
 Write-Host "Creating Service Bus"
 az servicebus namespace create `
     --resource-group $resourceGroupName `
-    --name mynamespace `
+    --name $serviceBusNamespace `
     --location centralus `
     --sku Standard
 
@@ -39,16 +39,16 @@ Write-Host "Creating Service Bus Credentials"
 az servicebus namespace authorization-rule create `
     --resource-group $resourceGroupName `
     --namespace-name $serviceBusNamespace `
-    --name $serviceBusAuthRule -- rights Send Listen
+    --name $serviceBusAuthRule `
+    --rights Send Listen
 
 $key = az servicebus namespace authorization-rule keys list `
         --resource-group $resourceGroupName `
         --namespace-name $serviceBusNamespace `
         --name $serviceBusAuthRule | ConvertFrom-Json
 
-Write-Host "Service Bus Namespace: $serviceBusNamespace.servicebus.windows.net"
-Write-Host "Service Bus Shared Key: $key.keyName"
-Write-Host "Service Bus Shared Key: $key.primaryKey"
+Write-Host "Service Bus Namespace: $($serviceBusNamespace.servicebus.windows.net)"
+Write-Host "Primary Connection String: $($key.primaryConnectionString)"
 
 # Function App Creation 
 # $gitUserName = ""

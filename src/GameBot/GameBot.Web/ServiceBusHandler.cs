@@ -20,6 +20,7 @@ namespace GameBot.Web
         private readonly string _PurchaseUpdateTopic;
         private readonly string _PurchaseUpdateTopicSubscription;
         private readonly ILogger<ServiceBusHandler> _logger;
+        private readonly ServiceBusClient _client;
 
         public ServiceBusHandler(IConfiguration config, ILogger<ServiceBusHandler> logger) {
             _connectionString = config["ServiceBusConnectionString"];
@@ -27,19 +28,18 @@ namespace GameBot.Web
             _PurchaseUpdateTopic = config["PurchaseUpdateTopicName"];
             _PurchaseUpdateTopicSubscription = config["PurchaseUpdateTopicSubscription"];
             _logger = logger;
+            _client = new ServiceBusClient(_connectionString);
         }
 
         public async Task SendOrderToQueue(Order order)
         {
-            await using ServiceBusClient client = new ServiceBusClient(_connectionString);
-            var sender = client.CreateSender(_orderQueueName);
+            var sender = _client.CreateSender(_orderQueueName);
             var message = new ServiceBusMessage(JsonSerializer.Serialize(order));
             await sender.SendMessageAsync(message);
         }
 
         public async Task SetupOrderUpdateTopicListener(Func<OrderResult, Task> action) {
-            await using ServiceBusClient client = new ServiceBusClient(_connectionString);
-            var processor = client.CreateProcessor(_PurchaseUpdateTopic, _PurchaseUpdateTopicSubscription);
+            var processor = _client.CreateProcessor(_PurchaseUpdateTopic, _PurchaseUpdateTopicSubscription);
 
             async Task handleMessage(ProcessMessageEventArgs args)
             {

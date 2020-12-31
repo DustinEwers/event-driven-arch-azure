@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using GameBot.Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace GameBot.Web.Pages
                 return Page();
             }
 
+            Order.OrderId = Guid.NewGuid();
             Order.User = "Bob"; // Pretend this is from the user's session
 
             await _serviceBus.SendOrderToQueue(Order);

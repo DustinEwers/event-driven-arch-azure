@@ -21,7 +21,7 @@ namespace GameBot.Web
         {
             services.AddRazorPages();
             services.AddSignalR();
-            services.AddTransient<IServiceBusHandler, ServiceBusHandler>();
+            services.AddSingleton<IServiceBusHandler, ServiceBusHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
