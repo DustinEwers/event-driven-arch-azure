@@ -36,7 +36,7 @@ namespace GameBot.API
             Thread.Sleep(3000);
 
             var rand = new Random();
-            return rand.Next(1, 5) != 5; // It works most of the time...
+            return rand.Next(1, 6) != 5; // It works most of the time...
         }
     }
 }
