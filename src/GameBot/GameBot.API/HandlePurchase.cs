@@ -34,9 +34,7 @@ namespace GameBot.API
         private static bool SendtoPaymentApi(Order order) {
             // Pretend to call a payment API
             Thread.Sleep(3000);
-
-            var rand = new Random();
-            return rand.Next(1, 5) != 5; // It works most of the time...
+            return true;
         }
     }
 }
